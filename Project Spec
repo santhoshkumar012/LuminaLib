@@ -1,0 +1,1 @@
+The Project: "LuminaLib" You are tasked with building an intelligent, content-aware library system. This is not a standard CRUD application. It requires handling file ingestion, asynchronous LLM integration (Llama 3 or any other LLM of your choice), and a machine learning recommendation engine.
