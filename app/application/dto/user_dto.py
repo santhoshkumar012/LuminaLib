@@ -1,0 +1,20 @@
+from uuid import UUID
+from datetime import datetime
+
+from pydantic import BaseModel, EmailStr
+
+
+class UserResponse(BaseModel):
+
+    id: UUID
+
+    email: EmailStr
+
+    full_name: str
+
+    is_active: bool
+
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
