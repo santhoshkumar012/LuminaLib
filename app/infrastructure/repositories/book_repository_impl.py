@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from app.infrastructure.db.models.book import Book
 
@@ -31,6 +32,27 @@ class BookRepositoryImpl(BookRepository):
         )
 
         self.db.add(book)
+
+        await self.db.commit()
+
+        await self.db.refresh(book)
+
+        return book
+    
+
+    async def update_summary(
+        self,
+        book_id,
+        summary: str,
+    ):
+
+        result = await self.db.execute(
+            select(Book).where(Book.id == book_id)
+        )
+
+        book = result.scalar_one()
+
+        book.summary = summary
 
         await self.db.commit()
 

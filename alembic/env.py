@@ -6,11 +6,7 @@ from app.core.database import Base
 
 
 from alembic import context
-from app.infrastructure.db.models.user import User
-from app.infrastructure.db.models.book import Book
-from app.infrastructure.db.models.borrow import Borrow
-from app.infrastructure.db.models.review import Review
-from app.infrastructure.db.models.user_preference import UserPreference
+from app.infrastructure.db.models import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

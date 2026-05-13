@@ -14,3 +14,11 @@ class BookRepository(ABC):
         storage_path: str,
     ) -> Book:
         pass
+
+    @abstractmethod
+    async def update_summary(
+        self,
+        book_id,
+        summary: str,
+    ):
+        pass

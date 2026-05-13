@@ -5,6 +5,7 @@ from fastapi import (
     File,
     Form,
 )
+from fastapi import BackgroundTasks
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -30,6 +31,10 @@ from app.domain.services.book_service import (
     BookService,
 )
 
+from app.application.tasks.book_tasks import (
+    generate_book_summary,
+)
+
 
 router = APIRouter(
     prefix="/books",
@@ -42,6 +47,7 @@ router = APIRouter(
     response_model=BookResponse,
 )
 async def upload_book(
+    background_tasks: BackgroundTasks,
     title: str = Form(...),
     author: str = Form(...),
     genre: str = Form(...),
@@ -59,9 +65,17 @@ async def upload_book(
         repository=repository,
     )
 
-    return await service.upload_book(
+    book = await service.upload_book(
         title=title,
         author=author,
         genre=genre,
         file=file,
     )
+
+    background_tasks.add_task(
+        generate_book_summary,
+        book.id,
+        book.storage_path,
+    )
+
+    return book
